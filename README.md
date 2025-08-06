@@ -2,13 +2,13 @@
 
 这是一个基于 [sfc-builder-cli](https://gitee.com/xue6474/sfc-builder-cli.git)命令行项目的 VSCode 插件，该工具可以将选项式 api 风格的 vue 单文件组件构建为 全局组件的插件,非常适合 cdn 等非工程化开发环境项目使用。
 
-## Features
+## 介绍
 
 [sfc-builder-cli](https://gitee.com/xue6474/sfc-builder-cli.git) 使用 vue 官方工具 @vue/compiler-sfc 模块，编译 `vue` 文件得到 `script`、`template`、`style` 中的内容，再将它们构建为全局组件。只需要在项目根 `html` 中引入编译后的 `index.js`、`index.css`，即完成单文件组件到全局注册。
 
 > 详情请查看仓库: https://gitee.com/xue6474/sfc-builder-cli.git
 
-## Requirements
+## 依赖
 
 If you have any requirements or dependencies, add a section describing those and how to install and configure them.
 

@@ -2,7 +2,7 @@ import * as vscode from 'vscode';
 
 
 
-const log_channel = vscode.window.createOutputChannel("build-sfc-vsce-log");
+const log_channel = vscode.window.createOutputChannel("sfc-builder-vsce-log");
 
 /**************************************************
 *

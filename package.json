@@ -6,26 +6,28 @@
   "repository": {
     "url": "https://gitee.com/xue6474/sfc-builder-vsce.git"
   },
+  "publisher": "xuejiangping",
   "engines": {
     "vscode": "^1.102.0"
   },
   "categories": [
     "Other"
   ],
-  "activationEvents": [
-    "onStartupFinished",
-    "onCommand:commandId"
-  ],
+  "activationEvents": [],
   "main": "./dist/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "sfc-builder.start",
-        "title": "启动插件"
+        "command": "sfc-builder.build",
+        "title": "sfc-builder-build  监听vue文件,保存时构建"
+      },
+      {
+        "command": "sfc-builder.clear",
+        "title": "sfc-builder-clear  清空构建目录"
       }
     ],
     "configuration": {
-      "title": "sfc-builder 配置",
+      "title": "sfc-builder-vsce",
       "properties": {
         "sfc-builder.output_path": {
           "type": "string",

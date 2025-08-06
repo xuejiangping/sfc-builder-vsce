@@ -1,13 +1,13 @@
+import { exec } from "child_process";
 import path from 'path';
 import * as vscode from 'vscode';
+import { logToChannel } from "./logChannel";
 export * from './logChannel';
 
+const SFC_BUILDER = 'sfc-builder'
 
-const BUILD_SFC = 'build_sfc'
-const config = vscode.workspace.getConfiguration(BUILD_SFC);
-
-export function getOptions() {
-
+export function getConfiguration() {
+  const config = vscode.workspace.getConfiguration(SFC_BUILDER);
   let output_path = config.get<string>('output_path', './');
   const workspacePath = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath;
   if (!workspacePath) throw new Error('请打开一个工作区');
@@ -26,4 +26,28 @@ export function getOptions() {
 export function formatStdout(stdout: string) {
   return stdout.replace(/\n/g, '').replace(/\r/g, '');
 }
+export function alertTip(type: 'success' | 'error', title: string, msg: string) {
+  const alertFn = type === 'success' ? vscode.window.showInformationMessage : vscode.window.showErrorMessage
+  logToChannel(msg)
+  alertFn(title, '查看详情').then(action => {
+    if (action === '查看详情') {
+      vscode.window.showInformationMessage(msg)
+    }
+  })
+}
 
+export function exec_cmd(cmd: string, successTip: string, errorTip: string) {
+  const cp = exec(
+    cmd,
+    (err, stdout, stderr) => {
+      let _err = err || stderr, _errMsg = _err.toString()
+      if (_err) {
+        alertTip('error', errorTip, _errMsg)
+      } else {
+        alertTip('success', successTip, stdout)
+      }
+    }
+  )
+
+
+}

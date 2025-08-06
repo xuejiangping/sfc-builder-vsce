@@ -1,67 +1,42 @@
-
-import { exec } from 'child_process';
 import path from 'path';
 import * as vscode from 'vscode';
-import { getOptions, logToChannel } from '../utils';
+import { exec_cmd, getConfiguration, logToChannel } from '../utils';
+
+let fileWatcher: vscode.Disposable | null = null;
 
 function build(filePath: string, extensionPath: string) {
-  const { output_path, id_pre, id_type } = getOptions();
-  const buildScriptPath = path.join(extensionPath, 'src', 'lib', 'build-sfc.min.cjs');
-  vscode.window.showInformationMessage(`开始编译 ${filePath}`);
-
-
-  const cp = exec(
-    `node ${buildScriptPath} -t ${id_type}  --outputPath ${output_path} --idPre ${id_pre} ${filePath}`,
-    (err, stdout, stderr) => {
-      let _err = err || stderr, _errMsg = _err.toString()
-
-      if (_err) {
-        console.error(_err)
-        logToChannel(_errMsg)
-        vscode.window.showErrorMessage(`编译失败 ${filePath}`, { detail: _errMsg }, '查看详情').then(action => {
-          if (action === '查看详情') {
-            vscode.window.showInformationMessage(_errMsg)
-          }
-        })
-      } else {
-        console.log(stdout)
-        logToChannel(stdout)
-        vscode.window.showInformationMessage(`编译完成 ${filePath}`, '查看详情').then(action => {
-          if (action === '查看详情') {
-            vscode.window.showInformationMessage(stdout)
-
-          }
-        })
-      }
-    }
+  const { output_path, id_pre, id_type } = getConfiguration();
+  const buildScriptPath = path.join(extensionPath, 'src', 'lib', 'sfc-builder-cli.min.cjs');
+  logToChannel(`开始编译 ${filePath}`);
+  exec_cmd(
+    `node ${buildScriptPath} build -t ${id_type}  --outputPath ${output_path} --idPre ${id_pre} ${filePath}`,
+    `编译完成 ${filePath}`,
+    `编译失败 ${filePath}`
   )
-
-
 }
 
-
-
-
-
-
 export function setupBuildCommand(context: vscode.ExtensionContext) {
-  const extensionPath = context.extensionPath;
-  const disposable = vscode.workspace.onDidSaveTextDocument(doc => {
-    if (doc.languageId === 'vue') {
-      console.log(doc.fileName, doc.languageId)
-      build(doc.fileName, extensionPath)
+
+  const disposable = vscode.commands.registerCommand('sfc-builder.build', () => {
+
+    const extensionPath = context.extensionPath;
+
+    // 如果已经存在监听器
+    if (fileWatcher) {
+      vscode.window.showInformationMessage('sfc-builder: 文件监听已启动,保存Vue文件时将自动构建');
+      return;
     }
 
-  })
-  vscode.commands.registerCommand('sfc-builder.start', () => {
-    const editor = vscode.window.activeTextEditor;
-    if (editor) {
-      const doc = editor.document;
+    // 创建文件监听器
+    fileWatcher = vscode.workspace.onDidSaveTextDocument(doc => {
       if (doc.languageId === 'vue') {
-        build(doc.fileName, extensionPath)
+        build(doc.fileName, extensionPath);
       }
-    }
-  });
+    });
 
+    context.subscriptions.push(fileWatcher);
+    logToChannel('开始监听Vue文件保存事件');
+    vscode.window.showInformationMessage('sfc-builder: 开始监听Vue文件保存事件,保存Vue文件时将自动构建');
+  });
   context.subscriptions.push(disposable);
 }

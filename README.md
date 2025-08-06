@@ -1,71 +1,37 @@
-# helloworld-vsce README
+# sfc-builder-vsce
 
-This is the README for your extension "helloworld-vsce". After writing up a brief description, we recommend including the following sections.
+这是一个基于 [sfc-builder-cli](https://gitee.com/xue6474/sfc-builder-cli.git)命令行项目的 VSCode 插件，该工具可以将选项式 api 风格的 vue 单文件组件构建为 全局组件的插件,非常适合 cdn 等非工程化开发环境项目使用。
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+[sfc-builder-cli](https://gitee.com/xue6474/sfc-builder-cli.git) 使用 vue 官方工具 @vue/compiler-sfc 模块，编译 `vue` 文件得到 `script`、`template`、`style` 中的内容，再将它们构建为全局组件。只需要在项目根 `html` 中引入编译后的 `index.js`、`index.css`，即完成单文件组件到全局注册。
 
-For example if there is an image subfolder under your extension project workspace:
-
-\!\[feature X\]\(images/feature-x.png\)
-
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+> 详情请查看仓库: https://gitee.com/xue6474/sfc-builder-cli.git
 
 ## Requirements
 
 If you have any requirements or dependencies, add a section describing those and how to install and configure them.
 
-## Extension Settings
+## 插件配置
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+`configuration.properties` 中包含以下配置:
 
-For example:
+- `sfc-builder.id_type`: `id`生成的方式,默认为`dirName`,比如：`src/components/A/index.vue` 生成组件的 id 为`id_pre-a`.
+- `sfc-builder.id_pre`: 生成的全局组件 id 的前缀,默认为 `xue`.
+- `sfc-builder.output_path`: 生成组件的`index.js` ,` index.css` ,`_build.json`的 输出目录，默认为 当前项目工作目录.
 
-This extension contributes the following settings:
-
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
-
-## Release Notes
-
-Users appreciate release notes as you update your extension.
+> Tip: 若 output_path 为 相对目录，则会以当前工作目录为根目录拼接
 
 ### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
 
 ---
 
 ## Following extension guidelines
 
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
+- [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
 
 ## Working with Markdown
 
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
 ## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
 
 **Enjoy!**

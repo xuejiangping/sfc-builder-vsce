@@ -1,8 +1,11 @@
 {
-  "name": "helloworld-vsce",
-  "displayName": "helloworld-vsce",
-  "description": "",
-  "version": "0.0.1",
+  "name": "sfc-builder-vsce",
+  "displayName": "sfc-builder-vsce",
+  "description": "这是一个基于 sfc-builder-cli 命令行项目的 VSCode 插件，该工具可以将选项式 api 风格的 vue 单文件组件构建为 全局组件的插件,非常适合 cdn 等非工程化开发环境项目使用。",
+  "version": "1.0.0",
+  "repository": {
+    "url": "https://gitee.com/xue6474/sfc-builder-vsce.git"
+  },
   "engines": {
     "vscode": "^1.102.0"
   },
@@ -17,24 +20,24 @@
   "contributes": {
     "commands": [
       {
-        "command": "helloworld-vsce.helloWorld",
-        "title": "Hello World"
+        "command": "sfc-builder.start",
+        "title": "启动插件"
       }
     ],
     "configuration": {
-      "title": "build-sfc 配置",
+      "title": "sfc-builder 配置",
       "properties": {
-        "build_sfc.output_path": {
+        "sfc-builder.output_path": {
           "type": "string",
           "default": "./",
           "description": "生成组件的index.js , index.css ,_build.json的 输出目录，默认为 当前项目 工作目录"
         },
-        "build_sfc.id_pre": {
+        "sfc-builder.id_pre": {
           "type": "string",
           "default": "xue",
           "description": "生成的全局组件id的前缀"
         },
-        "build_sfc.id_type": {
+        "sfc-builder.id_type": {
           "type": "string",
           "default": "dirName",
           "enum": [
@@ -51,6 +54,7 @@
     "compile": "webpack",
     "watch": "webpack --watch",
     "package": "webpack --mode production --devtool hidden-source-map",
+    "build": " vsce package -o release/sfc-builder-vsce.vsix -t win32-x64",
     "compile-tests": "tsc -p . --outDir out",
     "watch-tests": "tsc -p . -w --outDir out",
     "pretest": "pnpm run compile-tests && pnpm run compile && pnpm run lint",

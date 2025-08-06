@@ -1,6 +1,6 @@
 import path from 'path';
 import * as vscode from 'vscode';
-
+export * from './logChannel';
 
 
 const BUILD_SFC = 'build_sfc'
@@ -16,9 +16,14 @@ export function getOptions() {
   if (!path.isAbsolute(output_path)) output_path = path.join(workspacePath, output_path);
 
 
-  console.log('output_path', output_path)
-  console.log('id_pre', id_pre)
-  console.log('id_type', id_type)
+  // console.log('output_path', output_path)
+  // console.log('id_pre', id_pre)
+  // console.log('id_type', id_type)
 
   return { output_path, id_pre, id_type };
 }
+
+export function formatStdout(stdout: string) {
+  return stdout.replace(/\n/g, '').replace(/\r/g, '');
+}
+

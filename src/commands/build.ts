@@ -2,7 +2,7 @@
 import { exec } from 'child_process';
 import path from 'path';
 import * as vscode from 'vscode';
-import { getOptions } from '../utils';
+import { getOptions, logToChannel } from '../utils';
 
 function build(filePath: string, extensionPath: string) {
   const { output_path, id_pre, id_type } = getOptions();
@@ -13,13 +13,25 @@ function build(filePath: string, extensionPath: string) {
   const cp = exec(
     `node ${buildScriptPath} -t ${id_type}  --outputPath ${output_path} --idPre ${id_pre} ${filePath}`,
     (err, stdout, stderr) => {
-      let _err = err || stderr;
+      let _err = err || stderr, _errMsg = _err.toString()
+
       if (_err) {
-        vscode.window.showErrorMessage(`编译失败 ${filePath}`);
         console.error(_err)
+        logToChannel(_errMsg)
+        vscode.window.showErrorMessage(`编译失败 ${filePath}`, { detail: _errMsg }, '查看详情').then(action => {
+          if (action === '查看详情') {
+            vscode.window.showInformationMessage(_errMsg)
+          }
+        })
       } else {
-        vscode.window.showInformationMessage(`编译成功 ${filePath}`);
         console.log(stdout)
+        logToChannel(stdout)
+        vscode.window.showInformationMessage(`编译完成 ${filePath}`, '查看详情').then(action => {
+          if (action === '查看详情') {
+            vscode.window.showInformationMessage(stdout)
+
+          }
+        })
       }
     }
   )
@@ -41,6 +53,15 @@ export function setupBuildCommand(context: vscode.ExtensionContext) {
     }
 
   })
+  vscode.commands.registerCommand('sfc-builder.start', () => {
+    const editor = vscode.window.activeTextEditor;
+    if (editor) {
+      const doc = editor.document;
+      if (doc.languageId === 'vue') {
+        build(doc.fileName, extensionPath)
+      }
+    }
+  });
 
   context.subscriptions.push(disposable);
 }

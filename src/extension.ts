@@ -1,7 +1,6 @@
 
 import * as vscode from 'vscode';
-import { setupBuildCommand } from './commands/build';
-import { setupClearCommand } from './commands/clear';
+import { setupBuildCommand, setupClearCommand } from './commands/index';
 
 
 

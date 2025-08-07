@@ -4,19 +4,19 @@
 
 ## 介绍
 
-[sfc-builder-cli](https://gitee.com/xue6474/sfc-builder-cli.git)命令行工具利用`vue` 官方工具包[@vue/compiler-sfc](`@vue/compiler-sfc`) 模块，编译 `.vue` 文件得到 `script`、`template`、`style` 中的元信息，再将它们编译为全局组件。
+[sfc-builder-cli](https://gitee.com/xue6474/sfc-builder-cli.git)使用`vue` 官方工具包[@vue/compiler-sfc](`@vue/compiler-sfc`) 模块，编译 `vue` 文件为 `script`、`template`、`style` 元信息，再将它们构建为全局组件
 
-而我们只需要在项目的 `html` 中引入编译后的 `index.js`、`index.css`，即完成单文件组件到全局注册。
+我们只需要在项目的 `html` 中引入构建后的 `index.js`、`index.css`，即完成单文件组件到全局注册。
 
 所有组件构建信息 会记录在`build.json`中，提供了组件的长期存储， 且基于组件文件 hash,不会重复构建,提高了构建效率
 
-完全构建，无任何外部依赖，非常适合内网非工程化环境开发使用
+工具已完全构建，无任何外部依赖，非常适合内网、非工程化环境开发使用
 
-> `sfc-builder-cli`详情请查看仓库: https://gitee.com/xue6474/sfc-builder-cli.git
+`sfc-builder-cli`详情查看: https://gitee.com/xue6474/sfc-builder-cli.git
 
 ## 依赖
 
-`sfc-builder-cli` 已集成在插件中，无需安装，而 `sfc-builder-cli` 本身也是完全构建产物，除了基本的 node 环境依赖，不会引入任何外部依赖，可以完全在内网环境中使用
+= `sfc-builder-cli` 是完全构建产物，除了基本的 node 环境依赖，不会引入任何外部依赖，可以完全在内网环境中使用
 
 ## 插件配置
 
@@ -30,9 +30,16 @@
 - `sfc-builder.output_path`:构建产物的输出目录，默认为 当前工作目录
   构建产物包含 `index.js` ,` index.css` ,`_build.json`
 
-> Tip: 若 output_path 为 相对路径，则会以当前工作目录为根目录拼接
+> tip: 若 output_path 为 相对路径，则会以当前工作目录为根目录拼接
 
-### 1.0.0
+## 使用方法
+
+1.  启用插件
+    在 vscode 中，输入 `ctrl+shift+p` 打开命令面板，然后输入 `sfc-builder-build`命令并执行，即可启用插件。插件默认关闭的，只有命令启动后才会开始监听构建。所以，并不会影响工程化环境下正常的 vue 组件开发
+    插件启动后，会监听正在编辑且保存的 vue 文件，并自动执行 cli 工具构建
+
+2.  清理构建目录
+    在 命令面板中 输入 `sfc-builder-clear`命令并执行，即可清理构建目录（outputPath）
 
 ---
 

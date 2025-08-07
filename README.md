@@ -4,7 +4,7 @@
 
 ## 介绍
 
-[sfc-builder-cli](https://gitee.com/xue6474/sfc-builder-cli.git)使用`vue` 官方工具包[@vue/compiler-sfc](`@vue/compiler-sfc`) 模块，编译 `vue` 文件为 `script`、`template`、`style` 元信息，再将它们构建为全局组件
+[sfc-builder-cli](https://gitee.com/xue6474/sfc-builder-cli.git)使用`vue` 官方工具包[@vue/compiler-sfc](https://github.com/vuejs/core) 模块，编译 `vue` 文件为 `script`、`template`、`style` 元信息，再将它们构建为全局组件
 
 我们只需要在项目的 `html` 中引入构建后的 `index.js`、`index.css`，即完成单文件组件到全局注册。
 

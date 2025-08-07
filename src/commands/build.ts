@@ -2,7 +2,7 @@ import path from 'path';
 import * as vscode from 'vscode';
 import { exec_cmd, getConfiguration, logToChannel } from '../utils';
 
-let fileWatcher: vscode.Disposable | null = null;
+
 
 function build(filePath: string, extensionPath: string) {
   const { output_path, id_pre, id_type } = getConfiguration();
@@ -16,24 +16,34 @@ function build(filePath: string, extensionPath: string) {
 }
 
 export function setupBuildCommand(context: vscode.ExtensionContext) {
+  let fileWatcher: vscode.Disposable | null = null;
+  let changeWatcher: vscode.Disposable | null = null;
+  let hasChanges = false
 
   const disposable = vscode.commands.registerCommand('sfc-builder.build', () => {
-    const extensionPath = context.extensionPath;
 
     // 如果已经存在监听器
-    if (fileWatcher) {
+    if (fileWatcher && changeWatcher) {
       vscode.window.showInformationMessage('sfc-builder: 文件监听已启动,保存Vue文件时将自动构建');
       return;
     }
-
-    // 创建文件监听器
-    fileWatcher = vscode.workspace.onDidSaveTextDocument(doc => {
-      if (doc.languageId === 'vue') {
-        build(doc.fileName, extensionPath);
+    const extensionPath = context.extensionPath;
+    // 创建内容变化监听器
+    changeWatcher = vscode.workspace.onDidChangeTextDocument(event => {
+      if (event.document.languageId === 'vue' && event.document.isDirty) {
+        hasChanges = true;
       }
     });
 
-    context.subscriptions.push(fileWatcher);
+    // 创建文件监听器
+    fileWatcher = vscode.workspace.onDidSaveTextDocument(doc => {
+      if (doc.languageId === 'vue' && hasChanges) {
+        build(doc.fileName, extensionPath);
+        hasChanges = false;
+      }
+    });
+
+    context.subscriptions.push(fileWatcher, changeWatcher);
     logToChannel('开始监听Vue文件保存事件');
     vscode.window.showInformationMessage('sfc-builder: 开始监听Vue文件保存事件,保存Vue文件时将自动构建');
   });

@@ -1,6 +1,6 @@
 # sfc-builder-vsce
 
-这是一个基于 [sfc-builder-cli](https://gitee.com/xue6474/sfc-builder-cli.git) 的 VSCode 插件，该插件可以在我们编辑保存`.vue`文件时，自动 将选项式 api 风格的 vue 单文件组件构建为 全局组件,非常适合 cdn 等非工程化开发环境使用。
+这是一个基于 [sfc-builder-cli](https://gitee.com/xue6474/sfc-builder-cli.git) 的 VSCode 插件，该插件可以在我们编辑保存`.vue`文件时，自动 将选项式 api 风格的 vue 单文件组件构建为 全局组件
 
 ## 介绍
 

@@ -14,6 +14,11 @@
 
 `sfc-builder-cli`详情查看: https://gitee.com/xue6474/sfc-builder-cli.git
 
+## 要求
+
+    node >= 16.0.0
+    vscode >= 1.70.0
+
 ## 依赖
 
 `sfc-builder-cli` 是完全构建产物，除了基本的 node 环境依赖，不会引入任何外部依赖，可以完全在内网环境中使用

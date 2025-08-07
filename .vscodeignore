@@ -1,3 +1,5 @@
+# 插件打包生成.vsix文件时忽略的文件
+
 .vscode/**
 .vscode-test/**
 out/**

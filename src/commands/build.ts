@@ -18,7 +18,6 @@ function build(filePath: string, extensionPath: string) {
 export function setupBuildCommand(context: vscode.ExtensionContext) {
 
   const disposable = vscode.commands.registerCommand('sfc-builder.build', () => {
-
     const extensionPath = context.extensionPath;
 
     // 如果已经存在监听器

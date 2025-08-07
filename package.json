@@ -62,7 +62,10 @@
     "watch-tests": "tsc -p . -w --outDir out",
     "pretest": "pnpm run compile-tests && pnpm run compile && pnpm run lint",
     "lint": "eslint src",
-    "test": "vscode-test"
+    "test": "vscode-test",
+    "publish:major": "vsce publish -t win32-x64 major",
+    "publish:minor": "vsce publish -t win32-x64 minor",
+    "publish:patch": "vsce publish -t win32-x64 patch"
   },
   "devDependencies": {
     "@types/vscode": "^1.70.0",

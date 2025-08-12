@@ -1,7 +1,7 @@
 {
   "name": "sfc-builder-vsce",
   "displayName": "sfc-builder-vsce",
-  "description": "一个基于 sfc-builder-cli 命令行项目的插件，将选项式api风格的vue单文件组件构建为全局组件,非常适合cdn等非工程化开发环境使用",
+  "description": "一个基于 sfc-builder-cli 命令行项目的vscode插件，将选项式api风格的vue单文件组件构建为全局组件,非常适合cdn等非工程化开发环境使用",
   "version": "1.0.0",
   "repository": {
     "url": "https://gitee.com/xue6474/sfc-builder-vsce.git"
